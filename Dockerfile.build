@@ -1,0 +1,10 @@
+ARG DISTRO='quay.io/centos/centos:stream8'
+FROM $DISTRO
+
+RUN dnf install -y epel-release && dnf clean packages
+RUN dnf -y install bc ccache hostname sudo && dnf clean packages
+
+ARG FOR_MAKE_CHECK=1
+RUN bash -x install-deps.sh && dnf clean packages
+
+RUN dnf clean all && rm -rf /var/cache/dnf/*
